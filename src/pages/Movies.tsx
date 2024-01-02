@@ -35,7 +35,7 @@ export const Movies = (): JSX.Element => {
   }, [navigate]);
 
   const handleEditClick = (movie: any) => {
-    navigate(`${ROUTES.editMovie}/${movie._id}`, { state: { movie } });
+    navigate(`${ROUTES.editMovie}/${movie._id}/edit`, { state: { movie } });
   };
 
   const handleLogout = async () => {
