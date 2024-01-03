@@ -38,22 +38,28 @@ export const MovieForm = ({ isEditState, initialData }: Props): JSX.Element => {
         navigate(ROUTES.signin);
         return;
       }
-
+  
       const formData = new FormData();
       formData.append('title', values.title);
       formData.append('publicationYear', values.year);
-
+  
       if (droppedImage?.file instanceof File) {
         formData.append('image', droppedImage.file);
       }
-
-      const apiFunction = isEditState ? updateMovie : createMovie;
-      const response = await apiFunction(formData, userToken);
-
+  
+      let response;
+  
+      if (isEditState) {
+        const movieId = initialData._id;
+        response = await updateMovie(movieId, formData, userToken);
+      } else {
+        response = await createMovie(formData, userToken);
+      }
+  
       if (!response.ok) {
         throw new Error(isEditState ? 'Failed to update the movie' : 'Failed to create a new movie');
       }
-
+  
       navigate(ROUTES.movies);
     } catch (error) {
       console.error(error);
